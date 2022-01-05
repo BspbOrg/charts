@@ -8,6 +8,7 @@ backend:
     repository: ghcr.io/bspb/smartbirds-server
     pullPolicy: IfNotPresent
     tag: "1.13.0"
+  env:
 
 frontend:
   enabled: false
@@ -16,8 +17,12 @@ frontend:
     repository: ghcr.io/bspb/smartbirds-web
     pullPolicy: IfNotPresent
     tag: "1.7.0"
+  env:
 
 postgresql:
+  enabled: true
+
+persistence:
   enabled: true
 
 imagePullSecrets: []

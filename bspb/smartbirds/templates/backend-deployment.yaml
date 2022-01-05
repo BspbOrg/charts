@@ -39,6 +39,11 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          env:
+            {{- range $key, $value := .Values.backend.env }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /

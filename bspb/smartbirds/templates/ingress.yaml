@@ -55,20 +55,34 @@ spec:
               serviceName: {{ include "smartbirds.fullname" . }}-frontend
               servicePort: {{ $svcPort }}
               {{- end }}
-          {{- else }}
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
+          - path: /api/
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: ImplementationSpecific
             {{- end }}
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $fullName }}
+                name: {{ include "smartbirds.fullname" . }}-backend
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ $fullName }}
+              serviceName: {{ include "smartbirds.fullname" . }}-frontend
+              servicePort: {{ $svcPort }}
+              {{- end }}
+          {{- else }}
+          {{- range .paths }}
+          - path: /
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: ImplementationSpecific
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ include "smartbirds.fullname" . }}-backend
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ include "smartbirds.fullname" . }}-backend
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
