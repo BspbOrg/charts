@@ -79,7 +79,33 @@ tolerations: []
 affinity: {}
 
 smartbirds:
-  secretToken: 'TODO: Use secrets'
+  orphanOwner: "orphan_records@smartbirds.org"
+  # TODO: Use secret
+  serverToken: ""
+  session:
+    duration: ""
+    prefix: ""
+
+  # various integrations
+  mailchimp:
+    enabled: false
+    # TODO: Use secret
+    apiKey: ""
+    listId: ""
+  mailgun:
+    enabled: false
+    # TODO: Use secret
+    apiKey: ""
+    domain: ""
+    from: "no-reply@smartbirds.org"
+  poEditor:
+    enabled: false
+    # TODO: Use secret
+    token: ""
+  sentry:
+    enabled: false
+    # TODO: Use secret
+    dsn: ""
 
 postgresql:
   postgresqlPostgresPassword: "R@nd0m!"
