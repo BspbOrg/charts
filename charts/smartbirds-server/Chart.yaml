@@ -30,3 +30,7 @@ dependencies:
   - name: redis
     version: "15.6.10"
     repository: 'https://charts.bitnami.com/bitnami'
+
+maintainers:
+  - url: https://bspb.org
+    name: BSPB
