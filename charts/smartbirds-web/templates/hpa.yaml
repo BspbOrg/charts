@@ -2,15 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "smartbirds.fullname" . }}-frontend
+  name: {{ include "smartbirds-web.fullname" . }}
   labels:
-    app: {{ include "smartbirds.name" . }}-frontend
-    {{- include "smartbirds.labels" . | nindent 4 }}
+    {{- include "smartbirds-web.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "smartbirds.fullname" . }}-frontend
+    name: {{ include "smartbirds-web.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

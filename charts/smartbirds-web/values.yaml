@@ -1,29 +1,14 @@
-# Default values for smartbirds-chart.
+# Default values for smartbirds-web.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-backend:
-  replicaCount: 1
-  image:
-    repository: ghcr.io/bspb/smartbirds-server
-    pullPolicy: IfNotPresent
-    tag: "1.13.0"
-  env:
+replicaCount: 1
 
-frontend:
-  enabled: false
-  replicaCount: 1
-  image:
-    repository: ghcr.io/bspb/smartbirds-web
-    pullPolicy: IfNotPresent
-    tag: "1.7.0"
-  env:
-
-postgresql:
-  enabled: true
-
-persistence:
-  enabled: true
+image:
+  repository: ghcr.io/bspborg/smartbirds-web
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "pr-337"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -57,14 +42,12 @@ service:
 
 ingress:
   enabled: false
-  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: smartbirds.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+  hosts:
+    - host: chart-example.local
+      paths: []
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

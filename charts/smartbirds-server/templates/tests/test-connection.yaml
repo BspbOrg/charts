@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "smartbirds-server.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "smartbirds-server.fullname" . }}:{{ .Values.service.port }}/api/status']
   restartPolicy: Never

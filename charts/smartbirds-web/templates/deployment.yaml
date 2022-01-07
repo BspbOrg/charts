@@ -1,17 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "smartbirds.fullname" . }}-backend
+  name: {{ include "smartbirds-web.fullname" . }}
   labels:
-    app: {{ include "smartbirds.name" . }}-backend
-    {{- include "smartbirds.labels" . | nindent 4 }}
+    {{- include "smartbirds-web.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.backend.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "smartbirds.selectorLabels" . | nindent 6 }}
+      {{- include "smartbirds-web.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,31 +18,25 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ include "smartbirds.name" . }}-backend
-        {{- include "smartbirds.labels" . | nindent 4 }}
+        {{- include "smartbirds-web.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "smartbirds.serviceAccountName" . }}
+      serviceAccountName: {{ include "smartbirds-web.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-backend
+        - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default "latest" }}"
-          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 5000
+              containerPort: 80
               protocol: TCP
-          env:
-            {{- range $key, $value := .Values.backend.env }}
-            - name: "{{ $key }}"
-              value: "{{ $value }}"
-            {{- end }}
           livenessProbe:
             httpGet:
               path: /
