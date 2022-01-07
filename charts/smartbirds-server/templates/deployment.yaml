@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "smartbirds-server.fullname" . }}
+  labels:
+    {{- include "smartbirds-server.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartbirds-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "smartbirds-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "smartbirds-server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "5000"
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ .Release.Name }}-postgresql:{{ .Values.postgresql.containerPorts.postgresql }}/{{ .Values.postgresql.postgresqlDatabase }}"
+            - name: REDIS_HOST
+              value: "{{ .Release.Name }}-redis-master"
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-redis"
+                  key: "redis-password"
+            - name: ORPHAN_OWNER
+              value: {{ .Values.smartbirds.orphanOwner | quote }}
+            {{- if .Values.smartbirds.serverToken }}
+            - name: SERVER_TOKEN
+              value: {{ .Values.smartbirds.serverToken | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.session.duration }}
+            - name: SESSION_DURATION
+              value: {{ .Values.smartbirds.session.duration | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.session.prefix }}
+            - name: SESSION_PREFIX
+              value: {{ .Values.smartbirds.session.prefix | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.poEditor.enabled }}
+            - name: POEDITOR_ENABLED
+              value: "1"
+            - name: POEDITOR_API_TOKEN
+              value: {{ .Values.smartbirds.poEditor.token | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.mailgun.enabled }}
+            - name: MAILGUN_API
+              value: {{ .Values.smartbirds.mailgun.apiKey | quote }}
+            - name: MAILGUN_DOMAIN
+              value: {{ .Values.smartbirds.mailgun.domain | quote }}
+            - name: FROM_EMAIL
+              value: {{ .Values.smartbirds.mailgun.from | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.mailchimp.enabled }}
+            - name: MAILCHIMP_ENABLED
+              value: "1"
+            - name: MAILCHIMP_API_KEY
+              value: {{ .Values.smartbirds.mailchimp.apiKey | quote }}
+            - name: MAILCHIMP_LIST_ID
+              value: {{ .Values.smartbirds.mailchimp.listId | quote }}
+            {{- end }}
+            {{- if .Values.smartbirds.sentry.enabled }}
+            - name: SENTRY_DSN
+              value: {{ .Values.smartbirds.sentry.dsn | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+          volumeMounts:
+            - mountPath: /app/uploads/files
+              name: uploads
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: uploads
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "smartbirds-server.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
