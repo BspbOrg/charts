@@ -16,6 +16,7 @@ fullnameOverride: ""
 
 persistence:
   enabled: true
+  accessMode: ReadWriteMany
   existingClaim: ""
   size: 8Gi
 
