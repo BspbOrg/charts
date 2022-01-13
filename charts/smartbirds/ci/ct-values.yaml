@@ -1,3 +1,7 @@
 ingress:
   hosts:
     - host: smartbirds.local
+
+smartbirds-server:
+  persistence:
+    accessMode: ReadWriteOnce
