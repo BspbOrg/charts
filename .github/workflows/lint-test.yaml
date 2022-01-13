@@ -41,6 +41,21 @@ jobs:
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0
         if: steps.list-changed.outputs.changed == 'true'
+        with:
+          config: .github/kind-config.yaml
+
+      - name: Setup ingress controller
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+      - name: Wait for ingress controller to boot
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=90s
 
       - name: Run chart-testing (install)
         run: ct install --config .github/ct-install.yaml

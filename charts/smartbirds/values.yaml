@@ -1,0 +1,17 @@
+# Default values for smartbirds.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+#  hosts:
+#    - host: smartbirds.local
+  tls: []
+  #  - secretName: smartbirds-tls
+  #    hosts:
+  #      - smartbirds.local

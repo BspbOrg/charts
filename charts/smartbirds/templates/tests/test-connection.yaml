@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "smartbirds.fullname" . }}-test-connection"
+  labels:
+    {{- include "smartbirds.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  hostAliases:
+    - ip: "127.0.0.1"
+      hostnames:
+        {{- range .Values.ingress.hosts }}
+        - {{ .host | quote }}
+        {{- end }}
+  hostNetwork: true
+  containers:
+    {{- range .Values.ingress.hosts }}
+    - name: wget-web
+      image: busybox
+      command: ['wget']
+      args: ['http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}']
+    - name: wget-server
+      image: busybox
+      command: ['wget']
+      args: ['http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}/api/status']
+    {{- end }}
+  restartPolicy: Never
