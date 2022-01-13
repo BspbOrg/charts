@@ -4,6 +4,8 @@ chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
   - bspb=https://bspborg.github.io/charts
 debug: true
+#excluded-charts:
+#  - smartbirds # need ingress in kind, but that somehow fails to install
 remote: origin
 target-branch: main
 upgrade: true
