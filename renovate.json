@@ -2,5 +2,28 @@
   "extends": [
     "config:base"
   ],
-  "bumpVersion": "patch"
+  "bumpVersion": "patch",
+  "packageRules": [
+    {
+      "matchSourceUrlPrefixes": [
+        "https://charts.bitnami.com/bitnami",
+        "https://bspborg.github.io/charts"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    }
+  ]
 }
