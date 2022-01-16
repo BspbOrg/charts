@@ -6,8 +6,8 @@
   "packageRules": [
     {
       "matchSourceUrlPrefixes": [
-        "https://charts.bitnami.com/bitnami",
-        "https://bspborg.github.io/charts"
+        "https://github.com/bitnami/charts",
+        "https://github.com/bspborg/charts"
       ],
       "matchUpdateTypes": [
         "minor",
