@@ -1,29 +1,10 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":enableRenovate",
+    ":automergeMinor",
+    ":automergeRequireAllStatusChecks",
+    ":enableVulnerabilityAlerts"
   ],
-  "bumpVersion": "patch",
-  "packageRules": [
-    {
-      "matchSourceUrlPrefixes": [
-        "https://github.com/bitnami/charts",
-        "https://github.com/bspborg/charts"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    },
-    {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    }
-  ]
+  "bumpVersion": "patch"
 }
