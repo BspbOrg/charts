@@ -38,13 +38,7 @@ cron:
     ## @param cron.organizations.schedule Schedule in Cron format to generate organizations export
     ## See https://en.wikipedia.org/wiki/Cron
     ##
-    schedule: "* * * * *"
-    ## @param cron.organizations.historyLimit Number of successful finished jobs to retain
-    ##
-    historyLimit: 1
-    ## @param cron.organizations.snapshotHistoryLimit Number of etcd snapshots to retain, tagged by date
-    ##
-    snapshotHistoryLimit: 1
+    schedule: "*/17 * * * *"
     ## Configure resource requests and limits for organization-exporter containers
     ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
     ## We usually recommend not to specify default resources and to leave this as a conscious

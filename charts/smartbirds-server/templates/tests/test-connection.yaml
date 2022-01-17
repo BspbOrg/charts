@@ -8,8 +8,12 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
+    - name: api-status
       image: busybox
       command: ['wget']
       args: ['{{ include "smartbirds-server.fullname" . }}:{{ .Values.service.port }}/api/status']
+    - name: organizations
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "smartbirds-server.fullname" . }}:{{ .Values.service.port }}/organizations.json']
   restartPolicy: Never

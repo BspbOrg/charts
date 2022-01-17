@@ -1,2 +1,6 @@
 persistence:
   accessMode: ReadWriteOnce
+
+cron:
+  organizations:
+    schedule: "* * * * *"
