@@ -1,0 +1,34 @@
+{{- $files := list -}}
+{{- $files = append $files "organizations" -}}
+{{- $files = append $files "birds_stats" -}}
+{{- $files = append $files "cbm_stats" -}}
+{{- $files = append $files "ciconia_stats" -}}
+{{- $files = append $files "mammals_stats" -}}
+{{- $files = append $files "invertebrates_stats" -}}
+{{- $files = append $files "plants_stats" -}}
+{{- $files = append $files "threats_stats" -}}
+{{- $files = append $files "user_rank_stats" -}}
+{{- $files = append $files "total_user_records_stats" -}}
+{{- $files = append $files "birds_top_stats" -}}
+{{- $files = append $files "herptiles_top_stats" -}}
+{{- $files = append $files "mammals_top_stats" -}}
+{{- $files = append $files "plants_top_stats" -}}
+{{- $files = append $files "invertebrates_top_stats" -}}
+{{- $files = append $files "bgatlas2008_global_stats" -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "smartbirds-server.fullname" . }}-test-cronjobs"
+  labels:
+    {{- include "smartbirds-server.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    {{- range $name := $files }}
+    - name: {{ regexReplaceAll "_" $name "-" }}
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "smartbirds-server.fullname" $ }}:{{ $.Values.service.port }}/{{ $name }}.json']
+    {{- end }}
+  restartPolicy: Never

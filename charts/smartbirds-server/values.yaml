@@ -55,6 +55,19 @@ cron:
       ##    memory: 1Gi
       limits: {}
       requests: {}
+  stats:
+    enabled: true
+    concurency: Forbid
+    schedule: "43 * * * *"
+  banners:
+    enabled: true
+    concurency: Forbid
+    schedule: "25 3 * * *"
+  mailchimp:
+    enabled: true
+    concurency: Forbid
+    schedule: "35 3 * * *"
+
 
 serviceAccount:
   # Specifies whether a service account should be created

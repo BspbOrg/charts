@@ -4,3 +4,7 @@ persistence:
 cron:
   organizations:
     schedule: "* * * * *"
+  stats:
+    schedule: "* * * * *"
+  banners:
+    schedule: "* * * * *"
