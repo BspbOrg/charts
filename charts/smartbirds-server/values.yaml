@@ -53,8 +53,8 @@ cron:
       ## limits:
       ##    cpu: 500m
       ##    memory: 1Gi
-      limits: { }
-      requests: { }
+      limits: {}
+      requests: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
