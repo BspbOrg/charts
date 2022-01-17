@@ -102,16 +102,25 @@ spec:
           volumeMounts:
             - mountPath: /app/uploads/files
               name: uploads
+            - mountPath: /app/public
+              name: static
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: uploads
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.uploads.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "smartbirds-server.fullname" .) }}
+            claimName: {{ .Values.uploads.persistence.existingClaim | default (include "smartbirds-server.uploads.fullname" .) }}
         {{- else }}
           emptyDir: {}
-        {{- end -}}
+        {{- end }}
+        - name: static
+        {{- if .Values.static.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.static.persistence.existingClaim | default (include "smartbirds-server.static.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

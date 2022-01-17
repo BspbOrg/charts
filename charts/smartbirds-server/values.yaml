@@ -14,11 +14,21 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-persistence:
-  enabled: true
-  accessMode: ReadWriteMany
-  existingClaim: ""
-  size: 8Gi
+uploads:
+  name: "uploads"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteMany
+    existingClaim: ""
+    size: 8Gi
+
+static:
+  name: "static"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteMany
+    existingClaim: ""
+    size: 1Gi
 
 serviceAccount:
   # Specifies whether a service account should be created

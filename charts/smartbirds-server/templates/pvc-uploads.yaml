@@ -1,0 +1,21 @@
+{{- if and .Values.uploads.persistence.enabled (not .Values.uploads.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "smartbirds-server.uploads.fullname" . }}
+  labels:
+    {{- include "smartbirds-server.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.uploads.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.uploads.persistence.size | quote }}
+{{- if .Values.uploads.persistence.storageClass }}
+{{- if (eq "-" .Values.uploads.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.uploads.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}
