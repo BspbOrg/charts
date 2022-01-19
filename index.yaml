@@ -3,6 +3,26 @@ entries:
   smartbirds:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-01-19T03:39:32.558330207Z"
+    dependencies:
+    - name: smartbirds-server
+      repository: https://bspborg.github.io/charts/
+      version: 0.1.3
+    - name: smartbirds-web
+      repository: https://bspborg.github.io/charts/
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: a88c81fdafcaa631d62f2365bde357fca880086d865426713a27f31baef90fc3
+    maintainers:
+    - name: BSPB
+      url: https://bspb.org
+    name: smartbirds
+    type: application
+    urls:
+    - https://github.com/BspbOrg/charts/releases/download/smartbirds-0.1.2/smartbirds-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-01-16T22:22:59.055417049Z"
     dependencies:
     - name: smartbirds-server
@@ -136,4 +156,4 @@ entries:
     urls:
     - https://github.com/BspbOrg/charts/releases/download/smartbirds-web-0.1.0/smartbirds-web-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-18T23:54:54.431937781Z"
+generated: "2022-01-19T03:39:32.558354303Z"
