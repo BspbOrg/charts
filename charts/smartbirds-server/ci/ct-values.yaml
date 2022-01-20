@@ -2,13 +2,4 @@ persistence:
   accessMode: ReadWriteOnce
 
 cron:
-  organizations:
-    schedule: "* * * * *"
-  stats:
-    schedule: "* * * * *"
-  refreshBgatlas2008:
-    schedule: "* * * * *"
-  banners:
-    schedule: "* * * * *"
-  atlasBspbStats:
-    schedule: "* * * * *"
+  enabled: false

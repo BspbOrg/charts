@@ -1,6 +1,6 @@
 {{- $files := list -}}
-{{- $files = append $files "atlas_bspb_summer_species.json" }}
-{{- $files = append $files "atlas_bspb_winter_species.json" }}
+{{- $files = append $files "atlas_bspb_summer_species" -}}
+{{- $files = append $files "atlas_bspb_winter_species" -}}
 {{- $files = append $files "bgatlas2008_global_stats" -}}
 {{- $files = append $files "birds_stats" -}}
 {{- $files = append $files "birds_top_stats" -}}
@@ -22,7 +22,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "smartbirds-server.fullname" . }}-test-cronjobs"
+  name: "{{ include "smartbirds-server.fullname" . }}-test-statics"
   labels:
     {{- include "smartbirds-server.labels" . | nindent 4 }}
   annotations:
