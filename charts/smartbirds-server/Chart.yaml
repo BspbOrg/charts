@@ -28,7 +28,7 @@ dependencies:
     version: "10.16.1"
     repository: 'https://charts.bitnami.com/bitnami'
   - name: redis
-    version: "15.7.5"
+    version: "16.0.1"
     repository: 'https://charts.bitnami.com/bitnami'
 
 maintainers:
