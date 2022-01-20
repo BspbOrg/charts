@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/bspborg/smartbirds-server
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "master"
 
@@ -55,10 +55,30 @@ cron:
       ##    memory: 1Gi
       limits: {}
       requests: {}
+  locations:
+    enabled: true
+    concurency: Forbid
+    schedule: "* * * * *"
+  visits:
+    enabled: true
+    concurency: Forbid
+    schedule: "* * * * *"
+  utmcode:
+    enabled: true
+    concurency: Forbid
+    schedule: "* * * * *"
+  birdsNewSpeciesModeratorReview:
+    enabled: true
+    concurency: Forbid
+    schedule: "* * * * *"
   stats:
     enabled: true
     concurency: Forbid
     schedule: "43 * * * *"
+  refreshBgatlas2008:
+    enabled: true
+    concurency: Forbid
+    schedule: "30 1 * * *"
   banners:
     enabled: true
     concurency: Forbid
@@ -67,6 +87,10 @@ cron:
     enabled: true
     concurency: Forbid
     schedule: "35 3 * * *"
+  atlasBspbStats:
+    enabled: true
+    concurency: Forbid
+    schedule: "45 3 * * *"
 
 
 serviceAccount:

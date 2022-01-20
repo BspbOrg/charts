@@ -1,20 +1,24 @@
 {{- $files := list -}}
-{{- $files = append $files "organizations" -}}
+{{- $files = append $files "atlas_bspb_summer_species.json" }}
+{{- $files = append $files "atlas_bspb_winter_species.json" }}
+{{- $files = append $files "bgatlas2008_global_stats" -}}
 {{- $files = append $files "birds_stats" -}}
+{{- $files = append $files "birds_top_stats" -}}
+{{- $files = append $files "campaign_stats" -}}
 {{- $files = append $files "cbm_stats" -}}
 {{- $files = append $files "ciconia_stats" -}}
-{{- $files = append $files "mammals_stats" -}}
-{{- $files = append $files "invertebrates_stats" -}}
-{{- $files = append $files "plants_stats" -}}
-{{- $files = append $files "threats_stats" -}}
-{{- $files = append $files "user_rank_stats" -}}
-{{- $files = append $files "total_user_records_stats" -}}
-{{- $files = append $files "birds_top_stats" -}}
+{{- $files = append $files "herptiles_stats" -}}
 {{- $files = append $files "herptiles_top_stats" -}}
-{{- $files = append $files "mammals_top_stats" -}}
-{{- $files = append $files "plants_top_stats" -}}
+{{- $files = append $files "invertebrates_stats" -}}
 {{- $files = append $files "invertebrates_top_stats" -}}
-{{- $files = append $files "bgatlas2008_global_stats" -}}
+{{- $files = append $files "mammals_stats" -}}
+{{- $files = append $files "mammals_top_stats" -}}
+{{- $files = append $files "organizations" -}}
+{{- $files = append $files "plants_stats" -}}
+{{- $files = append $files "plants_top_stats" -}}
+{{- $files = append $files "threats_stats" -}}
+{{- $files = append $files "total_user_records_stats" -}}
+{{- $files = append $files "user_rank_stats" -}}
 apiVersion: v1
 kind: Pod
 metadata:
