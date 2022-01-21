@@ -14,11 +14,76 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-persistence:
+uploads:
+  name: "uploads"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteMany
+    existingClaim: ""
+    size: 8Gi
+
+static:
+  name: "static"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteMany
+    existingClaim: ""
+    size: 1Gi
+
+cron:
   enabled: true
-  accessMode: ReadWriteMany
-  existingClaim: ""
-  size: 8Gi
+  jobs:
+  - name: "organizations"
+    enabled: true
+    taskName: "organizations:export"
+    concurency: Forbid
+    schedule: "*/17 * * * *"
+  - name: "locations"
+    enabled: true
+    taskName: "autoLocation"
+    concurency: Forbid
+    schedule: "* * * * *"
+  - name: "visits"
+    enabled: true
+    taskName: "autoVisit"
+    concurency: Forbid
+    schedule: "* * * * *"
+  - name: "utmcode"
+    enabled: true
+    taskName: "forms_fill_bgatlas2008_utmcode"
+    concurency: Forbid
+    schedule: "* * * * *"
+  - name: "modreview"
+    enabled: true
+    taskName: "birdsNewSpeciesModeratorReview"
+    concurency: Forbid
+    schedule: "* * * * *"
+  - name: "stats"
+    enabled: true
+    taskName: "stats:generate"
+    concurency: Forbid
+    schedule: "43 * * * *"
+  - name: "refresh"
+    enabled: true
+    taskName: "bgatlas2008_refresh"
+    concurency: Forbid
+    schedule: "30 1 * * *"
+  - name: "banners"
+    enabled: true
+    taskName: "banner:generate"
+    concurency: Forbid
+    schedule: "25 3 * * *"
+  - name: "mailchimp"
+    enabled: false
+    taskName: "stats:mailchimp"
+    concurency: Forbid
+    schedule: "35 3 * * *"
+  - name: "bspborg"
+    enabled: true
+    taskName: "AtlasBspbStats"
+    concurency: Forbid
+    schedule: "45 3 * * *"
+
 
 serviceAccount:
   # Specifies whether a service account should be created

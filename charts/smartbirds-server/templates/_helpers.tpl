@@ -24,6 +24,30 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Create a default fully qualified static name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "smartbirds-server.static.fullname" -}}
+{{- if .Values.static.fullnameOverride -}}
+{{- .Values.static.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "smartbirds-server.fullname" .) .Values.static.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a default fully qualified uploads name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "smartbirds-server.uploads.fullname" -}}
+{{- if .Values.uploads.fullnameOverride -}}
+{{- .Values.uploads.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" (include "smartbirds-server.fullname" .) .Values.uploads.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "smartbirds-server.chart" -}}

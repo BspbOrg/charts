@@ -29,34 +29,18 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext: {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- include "smartbirds-server.container.image" (dict "ctx" $) | nindent 10 }}
           ports:
             - name: http
               containerPort: 5000
               protocol: TCP
           env:
-            - name: NODE_ENV
-              value: production
+            {{- include "smartbirds-server.container.common-env" $ | nindent 12 }}
             - name: PORT
               value: "5000"
-            - name: DATABASE_URL
-              value: "postgres://{{ .Values.postgresql.postgresqlUsername }}:{{ .Values.postgresql.postgresqlPassword }}@{{ .Release.Name }}-postgresql:{{ .Values.postgresql.containerPorts.postgresql }}/{{ .Values.postgresql.postgresqlDatabase }}"
-            - name: REDIS_HOST
-              value: "{{ .Release.Name }}-redis-master"
-            - name: REDIS_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-redis"
-                  key: "redis-password"
             - name: ORPHAN_OWNER
               value: {{ .Values.smartbirds.orphanOwner | quote }}
-            {{- if .Values.smartbirds.serverToken }}
-            - name: SERVER_TOKEN
-              value: {{ .Values.smartbirds.serverToken | quote }}
-            {{- end }}
             {{- if .Values.smartbirds.session.duration }}
             - name: SESSION_DURATION
               value: {{ .Values.smartbirds.session.duration | quote }}
@@ -87,10 +71,6 @@ spec:
             - name: MAILCHIMP_LIST_ID
               value: {{ .Values.smartbirds.mailchimp.listId | quote }}
             {{- end }}
-            {{- if .Values.smartbirds.sentry.enabled }}
-            - name: SENTRY_DSN
-              value: {{ .Values.smartbirds.sentry.dsn | quote }}
-            {{- end }}
           livenessProbe:
             httpGet:
               path: /api/status
@@ -102,16 +82,25 @@ spec:
           volumeMounts:
             - mountPath: /app/uploads/files
               name: uploads
+            - mountPath: /app/public
+              name: static
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: uploads
-        {{- if .Values.persistence.enabled }}
+        {{- if .Values.uploads.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "smartbirds-server.fullname" .) }}
+            claimName: {{ .Values.uploads.persistence.existingClaim | default (include "smartbirds-server.uploads.fullname" .) }}
         {{- else }}
           emptyDir: {}
-        {{- end -}}
+        {{- end }}
+        - name: static
+        {{- if .Values.static.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.static.persistence.existingClaim | default (include "smartbirds-server.static.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
