@@ -204,6 +204,26 @@ entries:
   smartbirds-server:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-05-22T16:29:30.869418805Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.16.2
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.9.10
+    description: A Helm chart for Kubernetes
+    digest: 1c668c2ab5c81c64edf49490ffbfda2ef0682ae871299d9781c3ed07c91f4adc
+    maintainers:
+    - name: BSPB
+      url: https://bspb.org
+    name: smartbirds-server
+    type: application
+    urls:
+    - https://github.com/BspbOrg/charts/releases/download/smartbirds-server-0.1.20/smartbirds-server-0.1.20.tgz
+    version: 0.1.20
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-05-22T01:48:59.476617345Z"
     dependencies:
     - name: postgresql
@@ -616,4 +636,4 @@ entries:
     urls:
     - https://github.com/BspbOrg/charts/releases/download/smartbirds-web-0.1.0/smartbirds-web-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-22T10:27:43.702873165Z"
+generated: "2022-05-22T16:29:30.869630008Z"
