@@ -1,9 +1,9 @@
 dependencies:
 - name: smartbirds-server
   repository: https://bspborg.github.io/charts/
-  version: 0.1.19
+  version: 0.1.21
 - name: smartbirds-web
   repository: https://bspborg.github.io/charts/
   version: 0.1.0
-digest: sha256:77fabd8ffb06340f05686838f317cb3fb0b967210d127fcf8aba6c9f7f0f2fea
-generated: "2022-05-22T04:15:54.019574388Z"
+digest: sha256:e82502b5cce3d512e32329f0b64ee3ee3b3e23cab3f84058f42dc0ab03bda3b2
+generated: "2022-05-27T05:41:52.925683511Z"
